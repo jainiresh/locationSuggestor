@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Lost and Found</h1>
+
+        <input type="text" name="mood" id="mood"/>
+        <button onclick="getLocation()">Go</button>
+
+        <div id="response"></div>
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(sendPosition);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function sendPosition(position) {
+            const lat = position.coords.latitude;
+            const long = position.coords.longitude;
+
+            fetch('/moodOption', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    latitude: lat,
+                    longitude: long,
+                    mood: document.getElementById("mood").value
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                let div = document.getElementById("response")
+                div.innerText = JSON.stringify(data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
