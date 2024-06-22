@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, url_for, redirect
 from services import process
+import os
 
 app = Flask(__name__)
 
@@ -31,4 +32,5 @@ def messagingMethod():
     return redirect(url_for("home"))
 
 if __name__ == '__main__':
-    app.run(debug=False, port=10000)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(debug=False, port=port)
