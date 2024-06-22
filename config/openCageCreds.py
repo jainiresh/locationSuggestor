@@ -1,0 +1,1 @@
+openCageApiKey="8b3b0de250bc4ec2b13feb85f4284069"
