@@ -2,3 +2,5 @@ flask
 requests
 google-generativeai
 Pillow
+twilio
+googlemaps

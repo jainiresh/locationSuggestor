@@ -1,51 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MoodScout: Discover Your Perfect Spot</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
 </head>
+<style>
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-image: url('https://st2.depositphotos.com/1594308/8293/i/450/depositphotos_82938782-stock-photo-people-dancing-in-confetti.jpg'); /* Replace with your image URL */
+    background-size: cover; /* Ensure the background image covers the entire body */
+    background-repeat: no-repeat; /* Prevent background image from repeating */
+    background-position: center; /* Center the background image */
+    opacity: 1; /* Adjust opacity of the background image */
+}
+
+.main-content {
+    background-color: rgba(249, 251, 231, 1); /* Light yellow background for main content */
+    padding: 20px;
+    border-radius: 12px; /* Optional: Rounded corners for main content */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Optional: Box shadow for main content */
+}
+  .custom-container {
+    max-width: 600px;
+    padding: 40px;
+    background-color: #ffffff; /* White container background */
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  .custom-title {
+    font-size: 3rem; /* Larger font size */
+    font-weight: bold;
+    color: #4caf50; /* Green color */
+    margin-bottom: 10px;
+  }
+  .custom-title-3 {
+    font-size: 1.5rem; /* Larger font size */
+    font-weight: bold;
+    color: #4caf50; /* Green color */
+    margin-bottom: 30px;
+  }
+  .custom-description {
+    font-size: 1.2rem; /* Slightly larger description */
+    color: #333; /* Dark gray color */
+    margin-bottom: 20px;
+    width: max-content;
+  }
+  .custom-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px; /* Reduced margin for the form */
+  }
+  .custom-input {
+    width: 300px;
+    height: 50px;
+    border: 2px solid #4caf50; /* Green border */
+    border-radius: 25px; /* Rounded corners */
+    padding: 10px 15px;
+    font-size: 1.2rem;
+    outline: none; /* Remove outline */
+  }
+  .custom-input:focus {
+    border-color: #388e3c; /* Darker green on focus */
+  }
+  .custom-btn {
+    height: 50px;
+    border-radius: 25px;
+    padding: 10px 30px; /* Wider button padding */
+    font-size: 1.2rem;
+    background-color: #4caf50; /* Green background */
+    color: #fff; /* White text */
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth background transition */
+  }
+  .custom-btn:hover {
+    background-color: #388e3c; /* Darker green on hover */
+  }
+  .custom-images {
+    margin-top: 30px;
+  }
+  img {
+    width: 300px;
+    height: 150px;
+    object-fit: cover; /* Ensures the image covers the entire area */
+    border-radius: 8px; /* Optional: Rounded corners for aesthetic */
+    max-width: 100%;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow */
+  }
+  .custom-hint {
+    font-style: italic; /* Italic font style */
+    color: #666; /* Dark gray color */
+    margin-top: 10px; /* Top margin for separation */
+  }
+
+  .loader {
+    position: absolute;
+    border: 8px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top: 8px solid #4caf50; /* Green border */
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+    z-index: 1000; /* Ensure it's above other content */
+    display: none; /* Initially hidden */
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .sample-moods {
+    margin-bottom: 10px;
+  }
+  
+  .sample-mood {
+    color: #4caf50;
+    cursor: pointer;
+    border-bottom: 1px dashed #4caf50;
+    transition: color 0.3s ease, border-bottom-color 0.3s ease;
+  }
+  
+  .sample-mood:hover {
+    color: #388e3c;
+    border-bottom-color: #388e3c;
+  }
+</style>
 <body>
-    <h1>Lost and Found</h1>
+  <div class="custom-container main-content">
+    <div id="loader" class="loader"></div>
+    <h1 class="custom-title">MoodScout</h1>
+    <h3 class="custom-title-3">Discover Your Perfect Spot</h3>
+    <p class="custom-description">Explore unique places that match your current mood and vibe.</p>
+<div class="custom-form">
+  <input type="text" name="mood" id="mood" class="form-control custom-input mr-2" placeholder="I feel like .... ">
+  <button class="btn custom-btn" onclick="getLocation()">GO</button>
+</div>
+<div class="sample-moods">
+  <p class="mb-2">I feel like : <span class="sample-mood" onclick="setSampleMood('Hitting the Gym')">Hitting the Gym</span>, <span class="sample-mood" onclick="setSampleMood('Going for a trek')">Going for a trek</span>, <span class="sample-mood" onclick="setSampleMood('Going for a playground')">Going for a playground</span></p>
+</div>
+<br />
+<p class="custom-hint">Hint: More details, accurate results! 😉</p>
+    
+    <div class="custom-images">
+      <div class="row">
+        <div class="col-md-4">
+          <img src="https://img.freepik.com/free-photo/one-hiking-lifestyle-summer-yoga_1150-1002.jpg" alt="Tourist Place 1">
+        </div>
+        <div class="col-md-4">
+          <img src="https://mediaproxy.salon.com/width/1200/https://media2.salon.com/2017/03/pickup-basketball.jpg" alt="Tourist Place 2">
+        </div>
+        <div class="col-md-4">
+          <img src="https://media.istockphoto.com/id/1307190527/photo/happy-waiter-serving-food-to-group-of-friends-in-a-pub.jpg?s=612x612&w=0&k=20&c=EDqQ0oBcpFGV25p61vWUF5N-6lRJdbmZmQMe5kyuxyA=" alt="Tourist Place 3">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="response">
+  </div>
 
-        <input type="text" name="mood" id="mood"/>
-        <button onclick="getLocation()">Go</button>
+  <script>
 
-        <div id="response"></div>
-    <script>
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(sendPosition);
-            } else {
-                alert("Geolocation is not supported by this browser.");
-            }
-        }
+    function setSampleMood(mood) {
+      document.getElementById("mood").value = mood;
+    }
 
-        function sendPosition(position) {
-            const lat = position.coords.latitude;
-            const long = position.coords.longitude;
-
-            fetch('/moodOption', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    latitude: lat,
-                    longitude: long,
-                    mood: document.getElementById("mood").value
-                }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                let div = document.getElementById("response")
-                div.innerText = JSON.stringify(data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-        }
-    </script>
+    function getLocation() {
+      // Show loader
+      document.getElementById("loader").style.display = "block";
+    
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(sendPosition);
+      } else {
+        alert("Geolocation is not supported by this browser.");
+        // Hide loader in case of error
+        document.getElementById("loader").style.display = "none";
+      }
+    }
+    
+    function sendPosition(position) {
+      const lat = position.coords.latitude;
+      const long = position.coords.longitude;
+    
+      fetch('/moodOption', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+              latitude: lat,
+              longitude: long,
+              mood: document.getElementById("mood").value
+          }),
+      })
+      .then((response) => {
+          // Hide loader after receiving response
+          document.getElementById("loader").style.display = "none";
+          window.location.href = response.url
+          return response.url;
+      })
+      .then(url => {
+          console.log('Success:', url);
+          // Optionally, handle success logic here
+      })
+      .catch((error) => {
+          console.error('Error:', error);
+          // Hide loader in case of error
+          document.getElementById("loader").style.display = "none";
+      });
+    }
+    
+</script>
+  <!-- Bootstrap JS (optional, if you need JavaScript functionality) -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+
