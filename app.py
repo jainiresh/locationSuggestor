@@ -29,6 +29,7 @@ def getPlaces():
 @app.route('/submitPhone', methods=['POST'])
 def messagingMethod():
     process.processMessaging(request.data)
+    print('Here')
     return redirect(url_for("home"))
 
 if __name__ == '__main__':

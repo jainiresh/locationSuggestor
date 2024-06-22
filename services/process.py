@@ -22,7 +22,8 @@ def processMessaging(data):
     link = services.googleMapsService.getMapLink(locData['lat'], locData['long'], f"{jsonData['placeTitle']},{locData['city']},{locData['state']},{locData['country']}")
 
     contentToConsumer = f"Click on this link to get started towards {jsonData['placeTitle']}"
-    twilioService.createMessage(jsonData['phoneNumber'], contentToConsumer + " : " + link)
+    response = twilioService.createMessage(jsonData['phoneNumber'], contentToConsumer + " : " + link)
+    print( f"Twilio response: {response}")
     return "ok"
     
 def processBackend(data):
